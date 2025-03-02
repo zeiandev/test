@@ -13,13 +13,17 @@ model = tf.keras.models.load_model("food_classification_model.h5")
 tokenizer = Tokenizer(num_words=5000, oov_token="<OOV>")
 
 # Define max length (must match training)
-MAX_LENGTH = 20
+MAX_LENGTH = 30
 
 def classify_text(text):
     sequence = tokenizer.texts_to_sequences([text])
     padded = pad_sequences(sequence, maxlen=MAX_LENGTH, padding='post')
     prediction = model.predict(np.array(padded))[0][0]
     return "Food Item" if prediction > 0.5 else "Not a Food Item"
+
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "API is working!"})
 
 @app.route('/predict', methods=['POST'])
 def predict():
