@@ -18,6 +18,7 @@ MAX_LENGTH = 30
 def classify_text(text):
     print("🔍 Classifying text:", text)  # Debugging log
 
+    # Ensure text is tokenized properly
     sequence = tokenizer.texts_to_sequences([text])
     print("📌 Tokenized Sequence:", sequence)  # Debugging log
 
