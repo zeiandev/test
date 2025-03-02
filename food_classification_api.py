@@ -23,15 +23,19 @@ def classify_text(text):
     print("📌 Tokenized Sequence:", sequence)  # Debugging log
 
     if not sequence or not sequence[0]:  # Handle empty or invalid input
+        print("🚨 Error: Tokenized sequence is empty!")
         return "Invalid Input"
 
     padded = pad_sequences(sequence, maxlen=30, padding='post')
     print("🛠 Padded Input:", padded)  # Debugging log
 
-    prediction = model.predict(np.array(padded))[0][0]
-    print("✅ Model Prediction:", prediction)  # Debugging log
-
-    return "Food Item" if prediction > 0.5 else "Not a Food Item"
+    try:
+        prediction = model.predict(np.array(padded))[0][0]
+        print("✅ Model Prediction:", prediction)  # Debugging log
+        return "Food Item" if prediction > 0.5 else "Not a Food Item"
+    except Exception as e:
+        print("🚨 Model Error:", str(e))
+        return str(e)  # Send back the real error message
 
 @app.route('/', methods=['GET'])
 def home():
