@@ -29,7 +29,14 @@ def home():
 def predict():
     try:
         data = request.get_json()
-        text = data.get("text", "")
+        print("Received data:", data)  # Debugging line
+        if not data or "text" not in data:
+            return jsonify({"error": "No text provided"}), 400
+
+        text = data.get("text", "").strip()
+        if not text:
+            return jsonify({"error": "Empty text"}), 400
+
         result = classify_text(text)
         return jsonify({"classification": result})
     except Exception as e:
